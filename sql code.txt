@@ -1,0 +1,67 @@
+Table "studentInformation" {
+  "studentId" INT [pk]
+  "studentName" VARCHAR(255)
+  "contactNumber" VARCHAR(255) [unique]
+  "email" VARCHAR(255) [unique]
+  "mentorName" VARCHAR(255)
+  "batchId" INT
+  "batchName" VARCHAR(255)
+}
+
+Table "taskInformation" {
+  "taskId" INT [pk]
+  "taskName" VARCHAR(255) [unique]
+  "studentId" INT
+  "mentorId" INT
+  "mentorName" VARCHAR(25)
+  "batchName" VARCHAR(50)
+}
+
+Table "mentorInformation" {
+  "mentorId" INT [pk]
+  "email" VARCHAR(50) [unique]
+  "contactNo" VARCHAR(15) [unique]
+  "assignedBatch" VARCHAR(100)
+}
+
+Table "batchInformation" {
+  "batchId" INT [pk, increment]
+  "batchName" VARCHAR(255)
+  "totalStudents" INT
+  "mentorId" INT
+  "language" TEXT
+}
+
+Table "queryInfo" {
+  "queryId" INT [pk]
+  "queryText" TEXT
+  "studentId" INT
+  "mentorId" INT
+}
+
+Table "dashboardInfo" {
+  "dashboardId" INT [pk]
+  "studentId" INT
+  "mentorId" INT
+  "batchId" INT
+}
+
+
+
+Ref:"batchInformation"."batchId" < "studentInformation"."batchId"
+
+Ref:"studentInformation"."studentId" < "taskInformation"."studentId"
+
+Ref:"mentorInformation"."mentorId" < "taskInformation"."mentorId"
+
+Ref:"mentorInformation"."mentorId" < "batchInformation"."mentorId"
+
+Ref:"studentInformation"."studentId" < "queryInfo"."studentId"
+
+Ref:"mentorInformation"."mentorId" < "queryInfo"."mentorId"
+
+Ref:"studentInformation"."studentId" < "dashboardInfo"."studentId"
+
+Ref:"mentorInformation"."mentorId" < "dashboardInfo"."mentorId"
+
+Ref:"batchInformation"."batchId" < "dashboardInfo"."batchId"
